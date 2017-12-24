@@ -7,10 +7,18 @@ import javafx.stage.Stage;
 
 public class Main extends Application{
 	
-	private Stage window;
+	private static Stage window;
 	private final String TITLE = "Brick Breaker";
 	protected static final int WIDTH = 480;
 	protected static final int HEIGHT = 640;
+	
+	protected static boolean mainMenu = false;
+	protected static boolean inGame = false;
+	
+	private static Update menuTimer, gameTimer;
+	private static Pane titleLayout, gameLayout;
+	private static Scene mainMenuScene, gameScene;
+	private static MainMenu menu;
 	
 	//Used to init start method 
 	public static void main(String[] args) {
@@ -29,20 +37,51 @@ public class Main extends Application{
 		window.setWidth(WIDTH);
 		window.setHeight(HEIGHT);
 		
+		titleScreen();
+		
 		//Game init
-		gameStart();
+		//gameStart();
 		window.show();
 	
 		//On close
 		window.setOnCloseRequest(event -> System.out.println("\n-------\nRuntime ended"));
 	}
 	
-	private void titleScreen() {
-		return;
+	private static void titleScreen() {
+		titleLayout = new Pane();
+		
+		menu = new MainMenu();
+		
+		titleLayout.getChildren().addAll(menu.background, menu.title, menu.startGame, menu.highscores, menu.options, menu.exitGame);
+		
+		mainMenuScene = new Scene(titleLayout);
+		mainMenuScene.setOnKeyPressed(Keyboard::onPressed);
+		mainMenuScene.setOnKeyReleased(Keyboard::onReleased);
+		
+		
+		menuTimer = new Update(menu);
+		
+		menuTimer.start();
+		window.setScene(mainMenuScene);
+		
 	}
 	
-	private void gameStart() {
-		Pane layout = new Pane();
+	
+	protected static void gameStart() {
+		try {
+			//Cleans up Menu from memory
+			titleLayout = null;
+			mainMenuScene = null;
+			menu = null;
+			
+			menuTimer.stop();
+			menuTimer = null;
+			
+			System.gc();
+		}catch(Exception e) {};
+		
+		
+		Pane gameLayout = new Pane();
 		
 		//background
 		Rectangle background = new Rectangle(480, 640);
@@ -52,16 +91,16 @@ public class Main extends Application{
 		Bumper bumper = new Bumper();
 		
 		//Adds objects to layout
-		layout.getChildren().addAll(background, bumper.player);
+		gameLayout.getChildren().addAll(background, bumper.player);
 		
-		Scene gameScene = new Scene(layout);
+		Scene gameScene = new Scene(gameLayout);
 		
 		//Method References to handle key presses
 		gameScene.setOnKeyPressed(Keyboard::onPressed);
 		gameScene.setOnKeyReleased(Keyboard::onReleased);
 		
-		Update timer = new Update(bumper);
-		timer.start();
+		gameTimer = new Update(bumper);
+		gameTimer.start();
 		
 		window.setScene(gameScene);
 	}

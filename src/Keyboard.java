@@ -7,6 +7,7 @@ public class Keyboard {
 	protected static boolean leftKey = false;
 	protected static boolean upKey = false;
 	protected static boolean downKey = false;
+	protected static boolean enterKey = false;
 	
 	//add Up and down
 	
@@ -19,14 +20,20 @@ public class Keyboard {
 		
 		if(event.getCode() == KeyCode.LEFT) {
 			leftKey = true;
+			
 		}
 		
 		if(event.getCode() == KeyCode.UP) {
 			upKey = true;
+			
 		}
 		
 		if(event.getCode() == KeyCode.DOWN) {
 			downKey = true;
+		}
+		
+		if(event.getCode() == KeyCode.ENTER) {
+			enterKey = true;
 		}
 		
 		
@@ -51,6 +58,10 @@ public class Keyboard {
 		
 		if(event.getCode() == KeyCode.DOWN) {
 			downKey = false;
+		}
+		
+		if(event.getCode() == KeyCode.ENTER) {
+			enterKey = false;
 		}
 		
 	}
