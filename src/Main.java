@@ -89,9 +89,10 @@ public class Main extends Application{
 		
 		//player
 		Bumper bumper = new Bumper();
+		Ball ball = new Ball();
 		
 		//Adds objects to layout
-		gameLayout.getChildren().addAll(background, bumper.player);
+		gameLayout.getChildren().addAll(background, bumper.player, ball.ball);
 		
 		Scene gameScene = new Scene(gameLayout);
 		
