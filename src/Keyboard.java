@@ -8,7 +8,7 @@ public class Keyboard {
 	protected static boolean upKey = false;
 	protected static boolean downKey = false;
 	protected static boolean enterKey = false;
-	
+	protected static boolean spaceKey = false;
 	//add Up and down
 	
 	
@@ -36,6 +36,9 @@ public class Keyboard {
 			enterKey = true;
 		}
 		
+		if(event.getCode() == KeyCode.SPACE) {
+			spaceKey = true;
+		}
 		
 	
 	}
@@ -62,6 +65,10 @@ public class Keyboard {
 		
 		if(event.getCode() == KeyCode.ENTER) {
 			enterKey = false;
+		}
+		
+		if(event.getCode() == KeyCode.SPACE) {
+			spaceKey = false;
 		}
 		
 	}

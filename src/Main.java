@@ -51,15 +51,17 @@ public class Main extends Application{
 		titleLayout = new Pane();
 		
 		menu = new MainMenu();
+		Ball cpuBall = new Ball(true);
+		Bumper cpuBumper = new Bumper(true);
 		
-		titleLayout.getChildren().addAll(menu.background, menu.title, menu.startGame, menu.highscores, menu.options, menu.exitGame);
+		titleLayout.getChildren().addAll(menu.background, cpuBall.ball, menu.title, menu.startGame, menu.highscores, menu.options, menu.exitGame, cpuBumper.player);
 		
 		mainMenuScene = new Scene(titleLayout);
 		mainMenuScene.setOnKeyPressed(Keyboard::onPressed);
 		mainMenuScene.setOnKeyReleased(Keyboard::onReleased);
 		
 		
-		menuTimer = new Update(menu);
+		menuTimer = new Update(menu, cpuBumper, cpuBall);
 		
 		menuTimer.start();
 		window.setScene(mainMenuScene);
@@ -92,7 +94,7 @@ public class Main extends Application{
 		Ball ball = new Ball();
 		
 		//Adds objects to layout
-		gameLayout.getChildren().addAll(background, bumper.player, ball.ball);
+		gameLayout.getChildren().addAll(background, bumper.player, ball.ball, ball.pressSpace);
 		
 		Scene gameScene = new Scene(gameLayout);
 		
@@ -100,7 +102,7 @@ public class Main extends Application{
 		gameScene.setOnKeyPressed(Keyboard::onPressed);
 		gameScene.setOnKeyReleased(Keyboard::onReleased);
 		
-		gameTimer = new Update(bumper);
+		gameTimer = new Update(bumper, ball);
 		gameTimer.start();
 		
 		window.setScene(gameScene);
