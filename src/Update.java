@@ -27,17 +27,15 @@ public class Update extends AnimationTimer {
 	public void handle(long now) {
 		
 		if (gameUpdate) {
-			System.out.println("Player");
 			player.update();
 			ball.update(player.x);
 			return;
 		} 
 		
 		if (menuUpdate) {
-			System.out.println("Menu");
 			menu.update();
-			player.updateCPU(ball.x, ball.y);
-			ball.update(player.x);
+			player.updateCPU(ball.x, ball.y, menu.hasTransitioned);
+			ball.cpuUpdate(player.x, menu.hasTransitioned);
 			return;
 		}
 	

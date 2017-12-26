@@ -10,7 +10,7 @@ public class MainMenu {
 	
 	private double titleOpacity = 0, startGameOpacity = 0, highscoresOpacity = 0, optionsOpacity = 0, exitGameOpacity = 0; 
 	
-	private boolean hasTransitioned = false, hasChosen = false;
+	protected boolean hasTransitioned = false, hasChosen = false;
 	
 	private int choiceIndex = 0;
 	private int blinkerCounter = 30;

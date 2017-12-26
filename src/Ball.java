@@ -18,6 +18,9 @@ public class Ball {
 	private int[] directions = {-5,5};
 	
 	protected ImageView pressSpace;
+	private int msgBlinker = 30;
+	private double msgOpacity = 1;
+	
 	private boolean hasBegun = false;
 	private int paddleX;
 	
@@ -61,7 +64,23 @@ public class Ball {
 				xDirection = directions[rand.nextInt(2)];
 				hasBegun = true;
 			}
+			pressSpace.setOpacity(msgOpacity);
+			msgBlinker -= 1;
+			
+			if(msgBlinker == 0) {
+				
+				if(msgOpacity == 1) {
+					msgOpacity = 0;
+				} else {
+					msgOpacity = 1;
+				}
+				msgBlinker = 30;
+				
+			}
+			return;
+			
 		} else {
+			pressSpace.setOpacity(0);
 			this.paddleX = paddleX;
 			y += yDirection;
 			x += xDirection;
@@ -72,6 +91,23 @@ public class Ball {
 			paddleCollision();
 		}
 	}
+	
+	protected void cpuUpdate(int paddleX, boolean hasTransitioned) {
+		if (!hasTransitioned) {
+			ball.setOpacity(0);
+		} else {
+			ball.setOpacity(1);
+			this.paddleX = paddleX;
+			y += yDirection;
+			x += xDirection;
+				
+			ball.setTranslateX(x);
+			ball.setTranslateY(y);
+			wallCollision();
+			paddleCollision();	
+		}
+		
+		}
 	
 	private void wallCollision() {
 		if(x >= 480) {
@@ -84,15 +120,17 @@ public class Ball {
 			yDirection = yDirection * -1;
 		} else if (y >= 640) {
 			//Insert Game over 
+			System.out.println("\n-------\nRuntime ended");
+			System.exit(0);
 			return;
 		}
 	}
 	
 	private void paddleCollision() {
-		if (y >= Main.HEIGHT/2 + 215 && y <= Main.HEIGHT/2 + 220 && x >= paddleX && x <= paddleX + 120) {
+		if (y >= Main.HEIGHT/2 + 215 && y <= Main.HEIGHT/2 + 216 && x >= paddleX && x <= paddleX + 120) {
 			yDirection = yDirection * -1;
-		} else if (y >= Main.HEIGHT/2 + 220 && y <= Main.HEIGHT/2 + 240 && x >= paddleX - 5 && x <= paddleX + 125) {
-			xDirection = xDirection * -1;
+		} else if (y >= Main.HEIGHT/2 + 216 && y <= Main.HEIGHT/2 + 240 && x >= paddleX - 5 && x <= paddleX + 125) {
+			xDirection = xDirection *  -1;
 		}
 	}
 

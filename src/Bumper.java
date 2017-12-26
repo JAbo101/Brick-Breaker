@@ -62,13 +62,19 @@ import javafx.scene.shape.Rectangle;
 		}
 	}
 	
-	protected void updateCPU(int ballX, int ballY) {
-		player.setTranslateX(x);
-		player.setTranslateY(y);
-		
-		if(ballX > 60 && ballX < 420) {
-			x = ballX - 60;
+	protected void updateCPU(int ballX, int ballY, boolean hasTransitioned) {
+		if (!hasTransitioned) {
+			player.setOpacity(0);
+		} else {
+			player.setOpacity(1);
+			player.setTranslateX(x);
+			player.setTranslateY(y);
+			
+			if(ballX > 60 && ballX < 420) {
+				x = ballX - 60;
+			}
 		}
+		
 		
 	}
 
