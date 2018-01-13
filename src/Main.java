@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -19,6 +21,7 @@ public class Main extends Application{
 	private static Pane titleLayout, gameLayout;
 	private static Scene mainMenuScene, gameScene;
 	private static MainMenu menu;
+	protected static ArrayList<Block> blocks;
 	
 	//Used to init start method 
 	public static void main(String[] args) {
@@ -91,10 +94,12 @@ public class Main extends Application{
 		
 		//player
 		Bumper bumper = new Bumper();
-		Ball ball = new Ball();
+		BlockConfiguration config = new BlockConfiguration("6X3");
+		Ball ball = new Ball(config.blocks);
 		
 		//Adds objects to layout
 		gameLayout.getChildren().addAll(background, bumper.player, ball.ball, ball.pressSpace);
+		config.blocks.forEach(item -> gameLayout.getChildren().add(item.unit));
 		
 		Scene gameScene = new Scene(gameLayout);
 		
@@ -106,9 +111,14 @@ public class Main extends Application{
 		gameTimer.start();
 		
 		window.setScene(gameScene);
+		
+		
 	}
 	
-	private void gameOver() {
+	
+	protected static void gameOver() {
+		System.out.println("\n-------\nRuntime ended");
+		System.exit(0);
 		return;
 	}
 	

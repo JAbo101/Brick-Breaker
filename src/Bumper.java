@@ -70,7 +70,7 @@ import javafx.scene.shape.Rectangle;
 			player.setTranslateX(x);
 			player.setTranslateY(y);
 			
-			if(ballX > 60 && ballX < 420) {
+			if(ballX >= 60 && ballX < 420) {
 				x = ballX - 60;
 			}
 		}

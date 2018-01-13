@@ -71,8 +71,7 @@ public class MainMenu {
 		highscores.setOpacity(highscoresOpacity);
 		options.setOpacity(optionsOpacity);
 		exitGame.setOpacity(exitGameOpacity);
-	
-		
+
 		
 	}
 	

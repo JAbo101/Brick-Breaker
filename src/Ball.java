@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.scene.image.Image;
@@ -24,7 +25,10 @@ public class Ball {
 	private boolean hasBegun = false;
 	private int paddleX;
 	
-	public Ball() {
+	private ArrayList<Block> blocks;
+	private ArrayList<Block> broken = new ArrayList<Block>();
+	
+	public Ball(ArrayList<Block> blocks) {
 		ball = new Rectangle(10,10);
 		ball.setFill(Color.DARKRED);
 		
@@ -39,6 +43,8 @@ public class Ball {
 		pressSpace.setScaleX(.5);
 		pressSpace.setScaleY(.5);
 		
+		this.blocks = blocks;
+		
 	}
 	
 	public Ball(Boolean isCPU) {
@@ -47,7 +53,7 @@ public class Ball {
 		
 		ball.setTranslateX(x);
 		ball.setTranslateY(y);
-		
+		 
 		Random rand = new Random();
 		xDirection = directions[rand.nextInt(2)];
 		
@@ -58,12 +64,12 @@ public class Ball {
 		if(!hasBegun) {
 			if(Keyboard.spaceKey) {
 				
-				pressSpace.setOpacity(0);
-				
+				pressSpace.setVisible(false);
 				Random rand = new Random();
 				xDirection = directions[rand.nextInt(2)];
 				hasBegun = true;
 			}
+			
 			pressSpace.setOpacity(msgOpacity);
 			msgBlinker -= 1;
 			
@@ -89,6 +95,8 @@ public class Ball {
 			ball.setTranslateY(y);
 			wallCollision();
 			paddleCollision();
+			
+			blockCollision();
 		}
 	}
 	
@@ -120,18 +128,61 @@ public class Ball {
 			yDirection = yDirection * -1;
 		} else if (y >= 640) {
 			//Insert Game over 
-			System.out.println("\n-------\nRuntime ended");
-			System.exit(0);
+			Main.gameOver();
 			return;
 		}
 	}
 	
 	private void paddleCollision() {
 		if (y >= Main.HEIGHT/2 + 215 && y <= Main.HEIGHT/2 + 216 && x >= paddleX && x <= paddleX + 120) {
+			if (x < paddleX + 60) {
+				if(xDirection == 5) {
+					xDirection = xDirection * -1;
+				}
+			} else if (x > paddleX + 60) {
+				if (xDirection == -5) {
+					xDirection = xDirection * -1;
+				}
+			}
+			
 			yDirection = yDirection * -1;
+			
 		} else if (y >= Main.HEIGHT/2 + 216 && y <= Main.HEIGHT/2 + 240 && x >= paddleX - 5 && x <= paddleX + 125) {
 			xDirection = xDirection *  -1;
 		}
+	}
+	
+	private void blockCollision() {
+		if (y < Main.HEIGHT/2) {
+			for(Block item : blocks) {
+				
+				//If touching a block
+				if(x >= item.x && x <= item.x + 40) {
+					if(y >= item.y && y <= item.y + 40) {
+						
+						//On Side of Block
+						if(x == item.x || x == item.x + 40) {
+							xDirection = xDirection * -1;
+						
+						//On Top or bottom of Block	
+						} else if(y == item.y || y == item.y + 40) {
+							yDirection = yDirection * -1;
+						}
+						
+						if(item.onHit() == "BROKEN") {
+							broken.add(item);
+						}
+						
+						
+					}
+					
+				}
+				
+			}
+			blocks.removeAll(broken);
+			broken.clear();
+		}
+		
 	}
 
 }

@@ -10,7 +10,7 @@ public class Update extends AnimationTimer {
 	
 	public Update(Bumper player, Ball ball) {
 		this.player = player;
-		this.ball = ball;
+		this.ball =  ball;
 		gameUpdate = true;
 	}
 	
@@ -20,6 +20,7 @@ public class Update extends AnimationTimer {
 		this.ball = cpuBall;
 		this.menu = menu;
 		menuUpdate = true;
+		
 	}
 	
 	//Method is run 60 frames per second
@@ -38,6 +39,7 @@ public class Update extends AnimationTimer {
 			ball.cpuUpdate(player.x, menu.hasTransitioned);
 			return;
 		}
+		
 	
 		
 	}
